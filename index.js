@@ -1,8 +1,28 @@
 import express from "express"
+import morgan from 'morgan'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express();
 
 app.use(express.json())
+
+app.use(morgan("tiny"))
+
+app.use((req, res, next) => {
+    // console.log(req);
+    
+    console.log("mera pehla middleware -->")
+    next()
+})
+
+app.use((req, res, next) => {
+    // console.log(req);
+    // req.requestTime = new Date();
+    console.log("My second middleware")
+    next()
+})
 
 // data Array
 
@@ -111,7 +131,7 @@ app.delete("/user/:username", (req, res) => {
 })
 
 
-app.listen(5500, () => {
-    console.log("Server is listening on port: 5500");
+app.listen(process.env.PORT, () => {
+    console.log(`server is listening on port ${process.env.PORT}`);
     
 })
